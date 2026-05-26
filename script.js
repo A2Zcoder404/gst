@@ -72,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ prompt })
             });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error ${response.status}: ${errorText}`);
+            }
+
             const data = await response.json();
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 // Convert simple markdown to HTML (bold tags)
